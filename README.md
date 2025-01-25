@@ -8,25 +8,26 @@ You'll need [Bun](https://bun.sh) to build this project.
 
 1. Clone the repository.
 
-  ```sh
-  git clone https://gitlab.com/noClaps/color.git
-  cd color
-  ```
+   ```sh
+   git clone https://gitlab.com/noClaps/color.git
+   cd color
+   ```
 
 2. Build the project.
 
-  ```sh
-  bun install
-  make build
-  ```
-  You can then run it using `./color`
+   ```sh
+   bun install
+   make build
+   ```
+
+You can then run it using `./color`
 
 ## Usage
 
 You can use the tool simply by running:
 
 ```sh
-color "#ff732e" oklch
+color "#ff732e" oklch # oklch(71.475% 0.18776 43.447)
 ```
 
 The supported color formats can be listed using the `--list-formats` or `-f` flag:
