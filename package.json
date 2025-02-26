@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "colorjs.io": "^0.5.2"
+  },
+  "scripts": {
+    "build": "bun build index.ts --compile --minify --bytecode --outfile color"
   }
 }
