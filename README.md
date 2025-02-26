@@ -2,27 +2,35 @@
 
 This is a CLI tool to quickly convert between color formats. It's based on the [Color.js](https://colorjs.io) library and supports practically every format supported by CSS.
 
-## Build instructions
+## Installation
 
-You'll need [Bun](https://bun.sh) to build this project.
+You can install it using Homebrew on macOS/Linux:
 
-1. Clone the repository.
+```sh
+brew install noclaps/tap/color
+```
 
-   ```sh
-   git clone https://gitlab.com/noClaps/color.git
-   cd color
-   ```
+or you can build it from source:
 
-2. Build the project.
-
-   ```sh
-   bun install
-   make build
-   ```
-
-You can then run it using `./color`
+```sh
+git clone https://gitlab.com/noClaps/color.git && cd color
+bun install
+bun run build
+```
 
 ## Usage
+
+```
+USAGE: color <color> <format> [--list-formats]
+
+ARGUMENTS:
+  <color>               The color that you would like to convert.
+  <format>              The format that you would like to convert to.
+
+OPTIONS:
+  --list-formats, -f    List all the available formats and exit.
+  --help, -h            Display this help message and exit.
+```
 
 You can use the tool simply by running:
 
