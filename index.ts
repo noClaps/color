@@ -1,7 +1,7 @@
 import Color from "colorjs.io";
 
 const spaces = Object.keys(Color.spaces);
-spaces.push("rgb", "hex");
+spaces.push("rgb", "hex", "ansi");
 spaces.sort();
 const formats = spaces.join("\n").trim();
 
@@ -29,6 +29,14 @@ function color(args: string[]): string {
 
       case "rgb":
         return new Color(initialColor).to("srgb").toString();
+
+      case "ansi":
+        return JSON.stringify(
+          Bun.color(
+            new Color(initialColor).to("srgb").toString(),
+            "ansi",
+          )?.toString(),
+        ).slice(1, -1);
 
       default:
         return new Color(initialColor).to(outputFormat).toString();
