@@ -3,8 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "^1.2.4",
-    "typescript": "^5.7.3"
+    "@types/bun": "^1.2.5",
+    "typescript": "^5.8.2"
   },
   "dependencies": {
     "colorjs.io": "^0.5.2"
