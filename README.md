@@ -13,7 +13,7 @@ brew install noclaps/tap/color
 or you can build it from source:
 
 ```sh
-git clone https://gitlab.com/noClaps/color.git && cd color
+git clone https://github.com/noClaps/color.git && cd color
 bun install
 bun run build
 ```
