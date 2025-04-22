@@ -1,2 +1,4 @@
 color
 *.bun-build
+# Added by goreleaser init:
+dist/
