@@ -1,4 +1,6 @@
 color
 *.bun-build
+node_modules/
+
 # Added by goreleaser init:
 dist/
