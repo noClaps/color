@@ -4,7 +4,13 @@ This is a CLI tool to quickly convert between color formats. It's based on the [
 
 ## Installation
 
-You can download it from [Releases](https://github.com/noClaps/color/releases), or you can build it from source:
+You can download it from [Releases](https://github.com/noClaps/color/releases), or from Homebrew:
+
+```sh
+brew install noclaps/tap/color
+```
+
+or you can build it from source:
 
 ```sh
 git clone https://github.com/noClaps/color.git && cd color
