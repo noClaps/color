@@ -44,6 +44,7 @@ select {
     border-radius: 0.5rem;
     text-align: center;
     flex-grow: 1;
+    font-size: 1rem;
 }
 
 output {
