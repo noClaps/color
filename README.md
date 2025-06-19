@@ -8,20 +8,10 @@ This is a tool to quickly convert between color formats. Currently, it supports:
 
 ## Build instructions
 
-You'll need [Go](https://go.dev).
-
-Clone the repository:
+You can build it from source using Go:
 
 ```sh
-git clone https://github.com/noClaps/color.git
-cd color
-```
-
-Build and run the tool:
-
-```sh
-go build -o color
-./color '#c0ffee' oklch
+go install github.com/noclaps/color@latest
 ```
 
 ## Usage
