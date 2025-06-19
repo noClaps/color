@@ -1,10 +1,14 @@
 # color
 
-This is a tool to quickly convert between color formats. It's based on the [Color.js](https://colorjs.io) library and supports practically every format supported by CSS.
+This is a tool to quickly convert between color formats. Currently, it supports:
+
+- OKLCH
+- RGB
+- Hex
 
 ## Build instructions
 
-You'll need a JavaScript runtime like [Bun](https://bun.sh).
+You'll need [Go](https://go.dev).
 
 Clone the repository:
 
@@ -13,17 +17,38 @@ git clone https://github.com/noClaps/color.git
 cd color
 ```
 
-Install dependencies and start the development server:
+Build and run the tool:
 
 ```sh
-bun install
-bun dev
+go build -o color
+./color '#c0ffee' oklch
 ```
 
-Build the site:
+## Usage
+
+```
+USAGE: color <color> <format>
+
+ARGUMENTS:
+  <color>           The color that you would like to convert.
+  <format>          The format that you would like to convert to. Supported formats are: 'oklch',
+                    'rgb', 'hex'.
+
+OPTIONS:
+  -h, --help        Display this help and exit.
+```
+
+You can use the tool simply by running:
 
 ```sh
-bun run build
+color '#c0ffee' oklch
 ```
 
-This will build the site and place the output in `dist/`.
+The input color formats are the same as the output formats listed above.
+
+You can view the help by using `-h` or `--help`:
+
+```sh
+color -h
+color --help
+```
