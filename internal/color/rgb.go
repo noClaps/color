@@ -8,10 +8,10 @@ import (
 )
 
 type RGBA struct {
-	R float64
-	G float64
-	B float64
-	A float64
+	Red   float64
+	Green float64
+	Blue  float64
+	Alpha float64
 }
 
 func NewRGBA(input string) (RGBA, error) {
@@ -28,121 +28,121 @@ func NewRGBA(input string) (RGBA, error) {
 		return RGBA{}, fmt.Errorf("Invalid RGB input: `rgb(%v)`", input)
 	}
 
-	rStr := strings.TrimSpace(splits[0])
-	gStr := strings.TrimSpace(splits[1])
-	bStr := strings.TrimSpace(splits[2])
-	aStr := "1"
-	if strings.Contains(bStr, "/") {
-		splits := strings.SplitN(bStr, "/", 2)
-		bStr, aStr = strings.TrimSpace(splits[0]), strings.TrimSpace(splits[1])
+	redStr := strings.TrimSpace(splits[0])
+	greenStr := strings.TrimSpace(splits[1])
+	blueStr := strings.TrimSpace(splits[2])
+	alphaStr := "1"
+	if strings.Contains(blueStr, "/") {
+		splits := strings.SplitN(blueStr, "/", 2)
+		blueStr, alphaStr = strings.TrimSpace(splits[0]), strings.TrimSpace(splits[1])
 	}
 
-	var r float64
-	if strings.Contains(rStr, ".") {
-		rFloat, err := strconv.ParseFloat(rStr, 64)
+	var red float64
+	if strings.Contains(redStr, ".") {
+		redFloat, err := strconv.ParseFloat(redStr, 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB red: %v", err)
 		}
-		if rFloat < 0 || rFloat > 1 {
-			return RGBA{}, fmt.Errorf("Red must be in range 0 ≤ r ≤ 1: `%v`", rFloat)
+		if redFloat < 0 || redFloat > 1 {
+			return RGBA{}, fmt.Errorf("Red must be in range 0 ≤ r ≤ 1: `%v`", redFloat)
 		}
-		r = rFloat
+		red = redFloat
 	} else {
-		rInt, err := strconv.ParseInt(rStr, 10, 64)
+		redInt, err := strconv.ParseInt(redStr, 10, 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB red: %v", err)
 		}
-		if rInt < 0 || rInt > 255 {
-			return RGBA{}, fmt.Errorf("Red must be in range 0 ≤ r ≤ 255: `%v`", rInt)
+		if redInt < 0 || redInt > 255 {
+			return RGBA{}, fmt.Errorf("Red must be in range 0 ≤ r ≤ 255: `%v`", redInt)
 		}
-		r = float64(rInt) / 255
+		red = float64(redInt) / 255
 	}
 
-	var g float64
-	if strings.Contains(gStr, ".") {
-		gFloat, err := strconv.ParseFloat(gStr, 64)
+	var green float64
+	if strings.Contains(greenStr, ".") {
+		greenFloat, err := strconv.ParseFloat(greenStr, 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB green: %v", err)
 		}
-		if gFloat < 0 || gFloat > 1 {
-			return RGBA{}, fmt.Errorf("Green must be in range 0 ≤ g ≤ 1: `%v`", gFloat)
+		if greenFloat < 0 || greenFloat > 1 {
+			return RGBA{}, fmt.Errorf("Green must be in range 0 ≤ g ≤ 1: `%v`", greenFloat)
 		}
-		g = gFloat
+		green = greenFloat
 	} else {
-		gInt, err := strconv.ParseInt(gStr, 10, 64)
+		greenInt, err := strconv.ParseInt(greenStr, 10, 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB green: %v", err)
 		}
-		if gInt < 0 || gInt > 255 {
-			return RGBA{}, fmt.Errorf("Green must be in range 0 ≤ g ≤ 255: `%v`", gInt)
+		if greenInt < 0 || greenInt > 255 {
+			return RGBA{}, fmt.Errorf("Green must be in range 0 ≤ g ≤ 255: `%v`", greenInt)
 		}
-		g = float64(gInt) / 255
+		green = float64(greenInt) / 255
 	}
 
-	var b float64
-	if strings.Contains(bStr, ".") {
-		bFloat, err := strconv.ParseFloat(bStr, 64)
+	var blue float64
+	if strings.Contains(blueStr, ".") {
+		blueFloat, err := strconv.ParseFloat(blueStr, 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB blue: %v", err)
 		}
-		if bFloat < 0 || bFloat > 1 {
-			return RGBA{}, fmt.Errorf("Blue must be in range 0 ≤ b ≤ 1: `%v`", bFloat)
+		if blueFloat < 0 || blueFloat > 1 {
+			return RGBA{}, fmt.Errorf("Blue must be in range 0 ≤ b ≤ 1: `%v`", blueFloat)
 		}
-		b = bFloat
+		blue = blueFloat
 	} else {
-		bInt, err := strconv.ParseInt(bStr, 10, 64)
+		blueInt, err := strconv.ParseInt(blueStr, 10, 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB blue: %v", err)
 		}
-		if bInt < 0 || bInt > 255 {
-			return RGBA{}, fmt.Errorf("Blue must be in range 0 ≤ b ≤ 255: `%v`", bInt)
+		if blueInt < 0 || blueInt > 255 {
+			return RGBA{}, fmt.Errorf("Blue must be in range 0 ≤ b ≤ 255: `%v`", blueInt)
 		}
-		b = float64(bInt) / 255
+		blue = float64(blueInt) / 255
 	}
 
-	var a float64
-	if aStr[len(aStr)-1] == '%' {
-		aFloat, err := strconv.ParseFloat(aStr[:len(aStr)-1], 64)
+	var alpha float64
+	if alphaStr[len(alphaStr)-1] == '%' {
+		alphaFloat, err := strconv.ParseFloat(alphaStr[:len(alphaStr)-1], 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB alpha: %v", err)
 		}
-		if aFloat < 0 || aFloat > 100 {
-			return RGBA{}, fmt.Errorf("Alpha must be in range 0%% ≤ a ≤ 100%%: `%v`", aFloat)
+		if alphaFloat < 0 || alphaFloat > 100 {
+			return RGBA{}, fmt.Errorf("Alpha must be in range 0%% ≤ a ≤ 100%%: `%v`", alphaFloat)
 		}
-		a = aFloat / 100
+		alpha = alphaFloat / 100
 	} else {
-		aFloat, err := strconv.ParseFloat(aStr, 64)
+		alphaFloat, err := strconv.ParseFloat(alphaStr, 64)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB alpha: %v", err)
 		}
-		if aFloat < 0 || aFloat > 1 {
-			return RGBA{}, fmt.Errorf("Alpha must be in range 0 ≤ a ≤ 1: `%v`", a)
+		if alphaFloat < 0 || alphaFloat > 1 {
+			return RGBA{}, fmt.Errorf("Alpha must be in range 0 ≤ a ≤ 1: `%v`", alpha)
 		}
-		a = aFloat
+		alpha = alphaFloat
 	}
 
-	return RGBA{r, g, b, a}, nil
+	return RGBA{red, green, blue, alpha}, nil
 }
 
 func (rgb RGBA) ToOklch() Oklch {
 	// Convert from sRGB to linear sRGB
 	// https://bottosson.github.io/posts/colorwrong/#what-can-we-do
-	r := rgb.R / 12.92
-	if rgb.R >= 0.04045 {
-		r = math.Pow((rgb.R+0.055)/(1+0.055), 2.4)
+	red := rgb.Red / 12.92
+	if rgb.Red >= 0.04045 {
+		red = math.Pow((rgb.Red+0.055)/(1+0.055), 2.4)
 	}
-	g := rgb.G / 12.92
-	if rgb.G >= 0.04045 {
-		g = math.Pow((rgb.G+0.055)/(1+0.055), 2.4)
+	green := rgb.Green / 12.92
+	if rgb.Green >= 0.04045 {
+		green = math.Pow((rgb.Green+0.055)/(1+0.055), 2.4)
 	}
-	bl := rgb.B / 12.92
-	if rgb.B >= 0.04045 {
-		bl = math.Pow((rgb.B+0.055)/(1+0.055), 2.4)
+	blue := rgb.Blue / 12.92
+	if rgb.Blue >= 0.04045 {
+		blue = math.Pow((rgb.Blue+0.055)/(1+0.055), 2.4)
 	}
 
-	l := 0.4122214708*r + 0.5363325363*g + 0.0514459929*bl
-	m := 0.2119034982*r + 0.6806995451*g + 0.1073969566*bl
-	s := 0.0883024619*r + 0.2817188376*g + 0.6299787005*bl
+	l := 0.4122214708*red + 0.5363325363*green + 0.0514459929*blue
+	m := 0.2119034982*red + 0.6806995451*green + 0.1073969566*blue
+	s := 0.0883024619*red + 0.2817188376*green + 0.6299787005*blue
 
 	l = math.Cbrt(l)
 	m = math.Cbrt(m)
@@ -152,21 +152,21 @@ func (rgb RGBA) ToOklch() Oklch {
 	a := 1.9779984951*l - 2.4285922050*m + 0.4505937099*s
 	b := 0.0259040371*l + 0.7827717662*m - 0.8086757660*s
 
-	return Oklch{L, math.Hypot(a, b), math.Atan2(b, a), rgb.A}
+	return Oklch{L, math.Hypot(a, b), math.Atan2(b, a), rgb.Alpha}
 }
 
 func (rgb RGBA) ToHex() Hex {
-	r := uint8(math.Round(rgb.R * 255))
-	g := uint8(math.Round(rgb.G * 255))
-	b := uint8(math.Round(rgb.B * 255))
-	a := uint8(math.Round(rgb.A * 255))
-	return Hex{r, g, b, a}
+	red := uint8(math.Round(rgb.Red * 255))
+	green := uint8(math.Round(rgb.Green * 255))
+	blue := uint8(math.Round(rgb.Blue * 255))
+	alpha := uint8(math.Round(rgb.Alpha * 255))
+	return Hex{red, green, blue, alpha}
 }
 
 func (rgb RGBA) String() string {
-	a := ""
-	if rgb.A != 1 {
-		a = fmt.Sprintf(" / %v%%", rgb.A*100)
+	alpha := ""
+	if rgb.Alpha != 1 {
+		alpha = fmt.Sprintf(" / %v%%", rgb.Alpha*100)
 	}
-	return fmt.Sprintf("rgb(%v %v %v%s)", math.Round(rgb.R*255), math.Round(rgb.G*255), math.Round(rgb.B*255), a)
+	return fmt.Sprintf("rgb(%v %v %v%s)", math.Round(rgb.Red*255), math.Round(rgb.Green*255), math.Round(rgb.Blue*255), alpha)
 }

@@ -8,10 +8,10 @@ import (
 )
 
 type Oklch struct {
-	L float64
-	C float64
-	H float64
-	A float64
+	Lightness float64
+	Chroma    float64
+	Hue       float64
+	Alpha     float64
 }
 
 func NewOklch(input string) (Oklch, error) {
@@ -28,83 +28,83 @@ func NewOklch(input string) (Oklch, error) {
 		return Oklch{}, fmt.Errorf("Invalid OKLCH input: `oklch(%v)`", input)
 	}
 
-	lStr := strings.TrimSpace(splits[0])
-	cStr := strings.TrimSpace(splits[1])
-	hStr := strings.TrimSpace(splits[2])
-	aStr := "1"
-	if strings.Contains(hStr, "/") {
-		splits := strings.SplitN(hStr, "/", 2)
-		hStr, aStr = strings.TrimSpace(splits[0]), strings.TrimSpace(splits[1])
+	lightnessStr := strings.TrimSpace(splits[0])
+	chromaStr := strings.TrimSpace(splits[1])
+	hueStr := strings.TrimSpace(splits[2])
+	alphaStr := "1"
+	if strings.Contains(hueStr, "/") {
+		splits := strings.SplitN(hueStr, "/", 2)
+		hueStr, alphaStr = strings.TrimSpace(splits[0]), strings.TrimSpace(splits[1])
 	}
 
-	var l float64
-	if lStr[len(lStr)-1] == '%' {
-		lFloat, err := strconv.ParseFloat(lStr[:len(lStr)-1], 64)
+	var lightness float64
+	if lightnessStr[len(lightnessStr)-1] == '%' {
+		lightnessFloat, err := strconv.ParseFloat(lightnessStr[:len(lightnessStr)-1], 64)
 		if err != nil {
 			return Oklch{}, fmt.Errorf("Error parsing OKLCH lightness: %v", err)
 		}
-		if lFloat < 0 || lFloat > 100 {
-			return Oklch{}, fmt.Errorf("Lightness must be in range 0%% ≤ l ≤ 100%%: `%v`", lFloat)
+		if lightnessFloat < 0 || lightnessFloat > 100 {
+			return Oklch{}, fmt.Errorf("Lightness must be in range 0%% ≤ l ≤ 100%%: `%v`", lightnessFloat)
 		}
-		l = lFloat / 100
+		lightness = lightnessFloat / 100
 	} else {
-		lFloat, err := strconv.ParseFloat(lStr, 64)
+		lightnessFloat, err := strconv.ParseFloat(lightnessStr, 64)
 		if err != nil {
 			return Oklch{}, fmt.Errorf("Error parsing OKLCH lightness: %v", err)
 		}
-		if lFloat < 0 || lFloat > 1 {
-			return Oklch{}, fmt.Errorf("Lightness must be in range 0 ≤ l ≤ 1: `%v`", lFloat)
+		if lightnessFloat < 0 || lightnessFloat > 1 {
+			return Oklch{}, fmt.Errorf("Lightness must be in range 0 ≤ l ≤ 1: `%v`", lightnessFloat)
 		}
-		l = lFloat
+		lightness = lightnessFloat
 	}
 
-	c, err := strconv.ParseFloat(cStr, 64)
+	chroma, err := strconv.ParseFloat(chromaStr, 64)
 	if err != nil {
 		return Oklch{}, fmt.Errorf("Error parsing OKLCH chroma: %s", err)
 	}
-	if c < 0 {
-		return Oklch{}, fmt.Errorf("Chroma must be ≥ 0: `%v`", c)
+	if chroma < 0 {
+		return Oklch{}, fmt.Errorf("Chroma must be ≥ 0: `%v`", chroma)
 	}
 
-	h, err := strconv.ParseFloat(cStr, 64)
+	hue, err := strconv.ParseFloat(chromaStr, 64)
 	if err != nil {
 		return Oklch{}, fmt.Errorf("Error parsing OKLCH hue: %s", err)
 	}
 	// Bring hue between 0 <= h <= 360
-	for h > 360 {
-		h -= 360
+	for hue > 360 {
+		hue -= 360
 	}
-	for h < 360 {
-		h += 360
+	for hue < 360 {
+		hue += 360
 	}
 
-	var a float64
-	if aStr[len(aStr)-1] == '%' {
-		a, err = strconv.ParseFloat(aStr[:len(aStr)-1], 64)
+	var alpha float64
+	if alphaStr[len(alphaStr)-1] == '%' {
+		alpha, err = strconv.ParseFloat(alphaStr[:len(alphaStr)-1], 64)
 		if err != nil {
 			return Oklch{}, fmt.Errorf("Error parsing OKLCH alpha: %v", err)
 		}
-		if a < 0 || a > 100 {
-			return Oklch{}, fmt.Errorf("Alpha must be in range 0%% ≤ a ≤ 100%%: `%v`", a)
+		if alpha < 0 || alpha > 100 {
+			return Oklch{}, fmt.Errorf("Alpha must be in range 0%% ≤ a ≤ 100%%: `%v`", alpha)
 		}
-		a /= 100
+		alpha /= 100
 	} else {
-		a, err = strconv.ParseFloat(aStr, 64)
+		alpha, err = strconv.ParseFloat(alphaStr, 64)
 		if err != nil {
 			return Oklch{}, fmt.Errorf("Error parsing OKLCH alpha: %v", err)
 		}
-		if a < 0 || a > 1 {
-			return Oklch{}, fmt.Errorf("Alpha must be in range 0 ≤ a ≤ 1: `%v`", a)
+		if alpha < 0 || alpha > 1 {
+			return Oklch{}, fmt.Errorf("Alpha must be in range 0 ≤ a ≤ 1: `%v`", alpha)
 		}
 	}
 
-	return Oklch{l, c, h, a}, nil
+	return Oklch{lightness, chroma, hue, alpha}, nil
 }
 
 func (lch Oklch) ToRGBA() RGBA {
-	L := lch.L
-	a := lch.C * math.Cos(lch.H)
-	b := lch.C * math.Sin(lch.H)
+	L := lch.Lightness
+	a := lch.Chroma * math.Cos(lch.Hue)
+	b := lch.Chroma * math.Sin(lch.Hue)
 
 	l := L + 0.3963377774*a + 0.2158037573*b
 	m := L - 0.1055613458*a - 0.0638541728*b
@@ -114,29 +114,29 @@ func (lch Oklch) ToRGBA() RGBA {
 	m = m * m * m
 	s = s * s * s
 
-	r := 4.0767416621*l - 3.3077115913*m + 0.2309699292*s
-	g := -1.2684380046*l + 2.6097574011*m - 0.3413193965*s
-	bl := -0.0041960863*l - 0.7034186147*m + 1.7076147010*s
+	red := 4.0767416621*l - 3.3077115913*m + 0.2309699292*s
+	green := -1.2684380046*l + 2.6097574011*m - 0.3413193965*s
+	blue := -0.0041960863*l - 0.7034186147*m + 1.7076147010*s
 
 	// Convert from linear sRGB to sRGB
 	// https://bottosson.github.io/posts/colorwrong/#what-can-we-do
-	if r >= 0.0031308 {
-		r = 1.055*math.Pow(r, 1.0/2.4) - 0.055
+	if red >= 0.0031308 {
+		red = 1.055*math.Pow(red, 1.0/2.4) - 0.055
 	} else {
-		r = 12.92 * r
+		red = 12.92 * red
 	}
-	if g >= 0.0031308 {
-		g = 1.055*math.Pow(g, 1.0/2.4) - 0.055
+	if green >= 0.0031308 {
+		green = 1.055*math.Pow(green, 1.0/2.4) - 0.055
 	} else {
-		g = 12.92 * g
+		green = 12.92 * green
 	}
-	if bl >= 0.0031308 {
-		bl = 1.055*math.Pow(bl, 1.0/2.4) - 0.055
+	if blue >= 0.0031308 {
+		blue = 1.055*math.Pow(blue, 1.0/2.4) - 0.055
 	} else {
-		bl = 12.92 * bl
+		blue = 12.92 * blue
 	}
 
-	return RGBA{r, g, bl, lch.A}
+	return RGBA{red, green, blue, lch.Alpha}
 }
 
 func (lch Oklch) ToHex() Hex {
@@ -144,13 +144,9 @@ func (lch Oklch) ToHex() Hex {
 }
 
 func (lch Oklch) String() string {
-	a := ""
-	if lch.A != 1 {
-		a = fmt.Sprintf(" / %.3f%%", lch.A*100)
+	alpha := ""
+	if lch.Alpha != 1 {
+		alpha = fmt.Sprintf(" / %.3f%%", lch.Alpha*100)
 	}
-	h := "none"
-	if lch.H != 0 {
-		h = fmt.Sprintf("%.3f", lch.H)
-	}
-	return fmt.Sprintf("oklch(%.3f%% %.3f %s%s)", lch.L*100, lch.C, h, a)
+	return fmt.Sprintf("oklch(%.3f%% %.3f %.3f%s)", lch.Lightness*100, lch.Chroma, lch.Hue, alpha)
 }
