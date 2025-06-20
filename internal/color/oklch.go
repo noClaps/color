@@ -136,6 +136,10 @@ func (lch Oklch) ToRGBA() RGBA {
 		blue = 12.92 * blue
 	}
 
+	red = closeEnough(red)
+	green = closeEnough(green)
+	blue = closeEnough(blue)
+
 	return RGBA{red, green, blue, lch.Alpha}
 }
 

@@ -152,6 +152,10 @@ func (rgb RGBA) ToOklch() Oklch {
 	a := 1.9779984951*l - 2.4285922050*m + 0.4505937099*s
 	b := 0.0259040371*l + 0.7827717662*m - 0.8086757660*s
 
+	L = closeEnough(L)
+	a = closeEnough(a)
+	b = closeEnough(b)
+
 	return Oklch{L, math.Hypot(a, b), math.Atan2(b, a), rgb.Alpha}
 }
 
