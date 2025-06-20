@@ -8,11 +8,19 @@ This is a tool to quickly convert between color formats. Currently, it supports:
 
 ## Build instructions
 
-You can build it from source using Go:
+You can install it from Homebrew:
+
+```sh
+brew install noclaps/tap/color
+```
+
+or build it from source using Go:
 
 ```sh
 go install github.com/noclaps/color@latest
 ```
+
+or download one of the prebuilt binaries in [Releases](https://github.com/noClaps/color/releases).
 
 ## Usage
 
