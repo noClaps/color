@@ -152,5 +152,9 @@ func (lch Oklch) String() string {
 	if lch.Alpha != 1 {
 		alpha = fmt.Sprintf(" / %.3f%%", lch.Alpha*100)
 	}
-	return fmt.Sprintf("oklch(%.3f%% %.3f %.3f%s)", lch.Lightness*100, lch.Chroma, lch.Hue, alpha)
+	hue := fmt.Sprintf("%f", lch.Hue)
+	if lch.Hue == 0 {
+		hue = "none"
+	}
+	return fmt.Sprintf("oklch(%v%% %v %s%s)", lch.Lightness*100, lch.Chroma, hue, alpha)
 }
