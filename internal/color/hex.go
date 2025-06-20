@@ -55,7 +55,7 @@ func (h Hex) ToOklch() Oklch {
 }
 
 func (h Hex) ToRGBA() RGBA {
-	return RGBA{float64(h.Red) / 255, float64(h.Green) / 255, float64(h.Blue) / 255, float64(h.Alpha) / 255}
+	return RGBA{h.Red, h.Green, h.Blue, h.Alpha}
 }
 
 func (h Hex) String() string {

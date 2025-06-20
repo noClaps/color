@@ -114,33 +114,34 @@ func (lch Oklch) ToRGBA() RGBA {
 	m = m * m * m
 	s = s * s * s
 
-	red := 4.0767416621*l - 3.3077115913*m + 0.2309699292*s
-	green := -1.2684380046*l + 2.6097574011*m - 0.3413193965*s
-	blue := -0.0041960863*l - 0.7034186147*m + 1.7076147010*s
+	linearRed := 4.0767416621*l - 3.3077115913*m + 0.2309699292*s
+	linearGreen := -1.2684380046*l + 2.6097574011*m - 0.3413193965*s
+	linearBlue := -0.0041960863*l - 0.7034186147*m + 1.7076147010*s
 
 	// Convert from linear sRGB to sRGB
 	// https://bottosson.github.io/posts/colorwrong/#what-can-we-do
-	if red >= 0.0031308 {
-		red = 1.055*math.Pow(red, 1.0/2.4) - 0.055
+	if linearRed >= 0.0031308 {
+		linearRed = 1.055*math.Pow(linearRed, 1.0/2.4) - 0.055
 	} else {
-		red = 12.92 * red
+		linearRed = 12.92 * linearRed
 	}
-	if green >= 0.0031308 {
-		green = 1.055*math.Pow(green, 1.0/2.4) - 0.055
+	if linearGreen >= 0.0031308 {
+		linearGreen = 1.055*math.Pow(linearGreen, 1.0/2.4) - 0.055
 	} else {
-		green = 12.92 * green
+		linearGreen = 12.92 * linearGreen
 	}
-	if blue >= 0.0031308 {
-		blue = 1.055*math.Pow(blue, 1.0/2.4) - 0.055
+	if linearBlue >= 0.0031308 {
+		linearBlue = 1.055*math.Pow(linearBlue, 1.0/2.4) - 0.055
 	} else {
-		blue = 12.92 * blue
+		linearBlue = 12.92 * linearBlue
 	}
 
-	red = closeEnough(red)
-	green = closeEnough(green)
-	blue = closeEnough(blue)
+	red := uint8(math.Round(linearRed * 255))
+	green := uint8(math.Round(linearGreen * 255))
+	blue := uint8(math.Round(linearBlue * 255))
+	alpha := uint8(math.Round(lch.Alpha * 255))
 
-	return RGBA{red, green, blue, lch.Alpha}
+	return RGBA{red, green, blue, alpha}
 }
 
 func (lch Oklch) ToHex() Hex {
