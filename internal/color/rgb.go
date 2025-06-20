@@ -45,11 +45,11 @@ func NewRGBA(input string) (RGBA, error) {
 		}
 		red = uint8(math.Round(redFloat * 255))
 	} else {
-		redInt, err := strconv.ParseInt(redStr, 10, 8)
+		redInt, err := strconv.ParseUint(redStr, 10, 8)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB red: %v", err)
 		}
-		if redInt < 0 || redInt > 255 {
+		if redInt > 255 {
 			return RGBA{}, fmt.Errorf("Red must be in range 0 ≤ r ≤ 255: `%v`", redInt)
 		}
 		red = uint8(redInt)
@@ -66,11 +66,11 @@ func NewRGBA(input string) (RGBA, error) {
 		}
 		green = uint8(math.Round(greenFloat * 255))
 	} else {
-		greenInt, err := strconv.ParseInt(greenStr, 10, 8)
+		greenInt, err := strconv.ParseUint(greenStr, 10, 8)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB green: %v", err)
 		}
-		if greenInt < 0 || greenInt > 255 {
+		if greenInt > 255 {
 			return RGBA{}, fmt.Errorf("Green must be in range 0 ≤ g ≤ 255: `%v`", greenInt)
 		}
 		green = uint8(greenInt)
@@ -87,11 +87,11 @@ func NewRGBA(input string) (RGBA, error) {
 		}
 		blue = uint8(math.Round(blueFloat * 255))
 	} else {
-		blueInt, err := strconv.ParseInt(blueStr, 10, 64)
+		blueInt, err := strconv.ParseUint(blueStr, 10, 8)
 		if err != nil {
 			return RGBA{}, fmt.Errorf("Error parsing RGB blue: %v", err)
 		}
-		if blueInt < 0 || blueInt > 255 {
+		if blueInt > 255 {
 			return RGBA{}, fmt.Errorf("Blue must be in range 0 ≤ b ≤ 255: `%v`", blueInt)
 		}
 		blue = uint8(blueInt)
