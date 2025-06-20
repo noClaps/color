@@ -156,7 +156,8 @@ func (rgb RGBA) ToOklch() Oklch {
 	a = closeEnough(a)
 	b = closeEnough(b)
 
-	return Oklch{L, math.Hypot(a, b), math.Atan2(b, a), float64(rgb.Alpha) / 255}
+	hue := math.Atan2(b, a) / math.Pi * 180 // rad -> deg
+	return Oklch{L, math.Hypot(a, b), hue, float64(rgb.Alpha) / 255}
 }
 
 func (rgb RGBA) ToHex() Hex {

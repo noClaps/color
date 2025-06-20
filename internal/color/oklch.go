@@ -102,9 +102,11 @@ func NewOklch(input string) (Oklch, error) {
 }
 
 func (lch Oklch) ToRGBA() RGBA {
+	hue := lch.Hue / 180 * math.Pi // deg -> rad
+
 	L := lch.Lightness
-	a := lch.Chroma * math.Cos(lch.Hue)
-	b := lch.Chroma * math.Sin(lch.Hue)
+	a := lch.Chroma * math.Cos(hue)
+	b := lch.Chroma * math.Sin(hue)
 
 	l := L + 0.3963377774*a + 0.2158037573*b
 	m := L - 0.1055613458*a - 0.0638541728*b
