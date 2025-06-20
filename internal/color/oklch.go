@@ -66,7 +66,7 @@ func NewOklch(input string) (Oklch, error) {
 		return Oklch{}, fmt.Errorf("Chroma must be ≥ 0: `%v`", chroma)
 	}
 
-	hue, err := strconv.ParseFloat(chromaStr, 64)
+	hue, err := strconv.ParseFloat(hueStr, 64)
 	if err != nil {
 		return Oklch{}, fmt.Errorf("Error parsing OKLCH hue: %s", err)
 	}
