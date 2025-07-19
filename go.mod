@@ -1,5 +1,5 @@
 module github.com/noclaps/color
 
-go 1.24.4
+go 1.24.5
 
 require github.com/noclaps/applause v0.3.4
