@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-      - run: GOOS=${{ matrix.versions.goos }} GOARCH=${{ matrix.versions.goarch }} go build -o color
+      - run: GOOS=${{ matrix.versions.goos }} GOARCH=${{ matrix.versions.goarch }} go build -ldflags="-s" -o color
       - run: tar -czf color-${{ matrix.versions.goos }}-${{ matrix.versions.goarch }}.tar.gz color
       - uses: actions/upload-artifact@v4
         with:
