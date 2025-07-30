@@ -24,30 +24,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-      - run: GOOS=${{ matrix.versions.goos }} GOARCH=${{ matrix.versions.goarch }} go build -ldflags="-s" -o color
-      - run: tar -czf color-${{ matrix.versions.goos }}-${{ matrix.versions.goarch }}.tar.gz color
-      - uses: actions/upload-artifact@v4
-        with:
-          name: color-${{ matrix.versions.goos }}-${{ matrix.versions.goarch }}
-          path: color-${{ matrix.versions.goos }}-${{ matrix.versions.goarch }}.tar.gz
-
-  publish:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          merge-multiple: true
+      - run: GOOS=${{ matrix.versions.goos }} GOARCH=${{ matrix.versions.goarch }} go build -ldflags="-s" -o color-${{ matrix.versions.goos }}-${{ matrix.versions.goarch }}
       - uses: softprops/action-gh-release@v2
         with:
-          files: |
-            color-darwin-arm64.tar.gz
-            color-linux-amd64.tar.gz
-      - uses: noClaps/homebrew-tap-action@v1.1.0
-        with:
-          tap_repo: noClaps/homebrew-tap
-          formula_name: color
-          version: ${{ github.ref_name }}
-          tap_token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          macos_file: color-darwin-arm64.tar.gz
-          linux_file: color-linux-amd64.tar.gz
+          files: color-${{ matrix.versions.goos }}-${{ matrix.versions.goarch }}
