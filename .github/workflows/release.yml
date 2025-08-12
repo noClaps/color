@@ -1,5 +1,4 @@
 on:
-  workflow_dispatch:
   push:
     tags: ["*"]
 
@@ -28,6 +27,5 @@ jobs:
       - run: GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -ldflags="-s" -o color-${{ matrix.goos }}-${{ matrix.goarch }}
       - run: tar -acf color-${{ matrix.goos }}-${{ matrix.goarch }}.tar.xz color-${{ matrix.goos }}-${{ matrix.goarch }}
       - uses: softprops/action-gh-release@v2
-        if: github.event_name != 'workflow_dispatch'
         with:
           files: color-${{ matrix.goos }}-${{ matrix.goarch }}.tar.xz
