@@ -24,8 +24,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-      - run: GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -ldflags="-s" -o color-${{ matrix.goos }}-${{ matrix.goarch }}
-      - run: tar -acf color-${{ matrix.goos }}-${{ matrix.goarch }}.tar.xz color-${{ matrix.goos }}-${{ matrix.goarch }}
+      - run: GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -ldflags="-s" -o color
+      - run: tar -acf color-${{ matrix.goos }}-${{ matrix.goarch }}.tar.xz color
       - uses: softprops/action-gh-release@v2
         with:
           files: color-${{ matrix.goos }}-${{ matrix.goarch }}.tar.xz
