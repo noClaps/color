@@ -6,17 +6,23 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+  release:
     strategy:
       fail-fast: false
       matrix:
+        goos: [darwin, linux]
+        goarch: [arm64, amd64]
         include:
-          - os: macos-latest
-            goos: darwin
-            goarch: arm64
-          - os: ubuntu-latest
-            goos: linux
-            goarch: amd64
+          - goos: darwin
+            os: macos-latest
+          - goos: linux
+            os: ubuntu-latest
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.goos }}-${{ matrix.goarch }}
     steps:
@@ -28,4 +34,5 @@ jobs:
       - run: tar -acf color-${{ matrix.goos }}-${{ matrix.goarch }}.tar.xz color
       - uses: softprops/action-gh-release@v2
         with:
+          draft: false
           files: color-${{ matrix.goos }}-${{ matrix.goarch }}.tar.xz
