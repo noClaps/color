@@ -74,7 +74,7 @@ func NewOklch(input string) (Oklch, error) {
 	for hue > 360 {
 		hue -= 360
 	}
-	for hue < 360 {
+	for hue < 0 {
 		hue += 360
 	}
 

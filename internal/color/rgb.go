@@ -157,6 +157,13 @@ func (rgb RGBA) ToOklch() Oklch {
 	b = closeEnough(b)
 
 	hue := math.Atan2(b, a) / math.Pi * 180 // rad -> deg
+	// Bring hue between 0 <= h <= 360
+	for hue > 360 {
+		hue -= 360
+	}
+	for hue < 0 {
+		hue += 360
+	}
 	return Oklch{L, math.Hypot(a, b), hue, float64(rgb.Alpha) / 255}
 }
 
