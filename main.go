@@ -12,7 +12,7 @@ import (
 
 type Args struct {
 	Color  string `help:"The color that you would like to convert."`
-	Format string `help:"The format that you would like to convert to. Supported formats are: 'oklch', 'rgb', 'hex'."`
+	Format string `help:"The format that you would like to convert to. Supported formats are: 'oklch', 'rgb', 'hex'." completion:"oklch rgb hex"`
 }
 
 func main() {
