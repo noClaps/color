@@ -1,91 +1,77 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"os"
+	"log"
 	"strings"
 
-	"github.com/noclaps/applause"
-	"github.com/noclaps/color/internal/color"
-	"github.com/noclaps/color/internal/logger"
+	"codeberg.org/noclaps/color/internal/color"
 )
 
-type Args struct {
-	Color  string `help:"The color that you would like to convert."`
-	Format string `help:"The format that you would like to convert to. Supported formats are: 'oklch', 'rgb', 'hex'." completion:"oklch rgb hex"`
-}
-
 func main() {
-	args := Args{}
-	if err := applause.Parse(&args); err != nil {
-		logger.Errorf("%v", err)
-		logger.Logf("%s", applause.Usage)
-		os.Exit(1)
-	}
+	flag.Parse()
 
-	args.Format = strings.ToLower(args.Format)
+	colorArg := flag.Arg(0)
+	format := flag.Arg(1)
 
-	if args.Format != "oklch" && args.Format != "rgb" && args.Format != "hex" {
-		logger.Fatalf("Unsupported format: `%s`. Supported formats are: 'oklch', 'rgb', 'hex'", args.Format)
+	format = strings.ToLower(format)
+
+	if format != "oklch" && format != "rgb" && format != "hex" {
+		log.Fatalf("Unsupported format: `%s`. Supported formats are: 'oklch', 'rgb', 'hex'", format)
 		return
 	}
 
-	if len(args.Color) > 3 && len(args.Color) < 10 && args.Color[0] == '#' {
-		hex, err := color.NewHex(args.Color)
+	if len(colorArg) > 3 && len(colorArg) < 10 && colorArg[0] == '#' {
+		hex, err := color.NewHex(colorArg)
 		if err != nil {
-			logger.Fatalf("%v", err)
+			log.Fatalln(err)
 		}
-		switch args.Format {
+
+		switch format {
 		case "oklch":
 			fmt.Println(hex.ToOklch())
 		case "rgb":
 			fmt.Println(hex.ToRGBA())
 		case "hex":
 			fmt.Println(hex)
-		default:
-			logger.Fatalf("Invalid format: `%v`", args.Format)
 		}
-
 		return
 	}
 
-	if len(args.Color) > 7 && args.Color[0:6] == "oklch(" && args.Color[len(args.Color)-1] == ')' {
-		oklch, err := color.NewOklch(args.Color)
+	if len(colorArg) > 7 && colorArg[0:6] == "oklch(" && colorArg[len(colorArg)-1] == ')' {
+		oklch, err := color.NewOklch(colorArg)
 		if err != nil {
-			logger.Fatalf("%v", err)
+			log.Fatalln(err)
 		}
 
-		switch args.Format {
+		switch format {
 		case "oklch":
 			fmt.Println(oklch)
 		case "rgb":
 			fmt.Println(oklch.ToRGBA())
 		case "hex":
 			fmt.Println(oklch.ToHex())
-		default:
-			logger.Fatalf("Invalid format: `%v`", args.Format)
 		}
 		return
 	}
 
-	if len(args.Color) > 5 && args.Color[0:4] == "rgb(" && args.Color[len(args.Color)-1] == ')' {
-		rgb, err := color.NewRGBA(args.Color)
+	if len(colorArg) > 5 && colorArg[0:4] == "rgb(" && colorArg[len(colorArg)-1] == ')' {
+		rgb, err := color.NewRGBA(colorArg)
 		if err != nil {
-			logger.Fatalf("%v", err)
+			log.Fatalln(err)
 		}
 
-		switch args.Format {
+		switch format {
 		case "oklch":
 			fmt.Println(rgb.ToOklch())
 		case "rgb":
 			fmt.Println(rgb)
 		case "hex":
 			fmt.Println(rgb.ToHex())
-		default:
-			logger.Fatalf("Invalid format: `%v`", args.Format)
 		}
 		return
 	}
 
-	logger.Fatalf("Invalid input: `%v`", args.Color)
+	log.Fatalf("Invalid input: `%v`", colorArg)
 }
